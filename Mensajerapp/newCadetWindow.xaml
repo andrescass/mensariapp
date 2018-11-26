@@ -1,0 +1,47 @@
+﻿<Window x:Class="Mensajerapp.newCadetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mensajerapp"
+        mc:Ignorable="d"
+        Title="Nuevo Cadete" Height="300" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Content="Nombre" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <Label Grid.Column="0" Grid.Row="1" Content="Dirección" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="E-mail" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Cuit" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Teléfono" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <TextBox x:Name="newCadetName" Grid.Column="1" Grid.Row="0" Margin="5"/>
+        <TextBox x:Name="newCadetAddress" Grid.Column="1" Grid.Row="1" Margin="5"/>
+        <TextBox x:Name="newCadetMail" Grid.Column="1" Grid.Row="2" Margin="5"/>
+        <TextBox x:Name="newCadetCuit" Grid.Column="1" Grid.Row="3" Margin="5" PreviewTextInput="NumberValidationTextBox"/>
+        <TextBox x:Name="newCadetTel" Grid.Column="1" Grid.Row="4" Margin="5" PreviewTextInput="NumberValidationTextBox"/>
+
+        <Grid Grid.Column="1" Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="newCadetCanc" Content="Cancelar" Grid.Column="2" Click="newCadetCanc_Click"  Margin="5"/>
+            <Button Name="newCadetAcc" Content="Aceptar" Grid.Column="3" Click="newCadetAcc_Click"  Margin="5"/>
+        </Grid>
+
+    </Grid>
+</Window>

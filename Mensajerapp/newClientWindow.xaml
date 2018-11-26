@@ -1,0 +1,49 @@
+﻿<Window x:Class="Mensajerapp.newClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mensajerapp"
+        mc:Ignorable="d"
+        Title="Nuevo Cliente" Height="300" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Content="Empresa" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <Label Grid.Column="0" Grid.Row="1" Content="Nomrbe de Contacto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Dirección" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="E-mail" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Cuit" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Teléfono" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <TextBox x:Name="newClientName" Grid.Column="1" Grid.Row="0" Margin="5"/>
+        <TextBox x:Name="newClientContact" Grid.Column="1" Grid.Row="1" Margin="5"/>
+        <TextBox x:Name="newClientAddress" Grid.Column="1" Grid.Row="2" Margin="5"/>
+        <TextBox x:Name="newClientMail" Grid.Column="1" Grid.Row="3" Margin="5"/>
+        <TextBox x:Name="newClientCuit" Grid.Column="1" Grid.Row="4" Margin="5" PreviewTextInput="NumberValidationTextBox"/>
+        <TextBox x:Name="newClientTel" Grid.Column="1" Grid.Row="5" Margin="5" PreviewTextInput="NumberValidationTextBox"/>
+
+        <Grid Grid.Column="1" Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="newClientCanc" Content="Cancelar" Grid.Column="2" Click="newClientCanc_Click" Margin="5"/>
+            <Button Name="newClientAcc" Content="Aceptar" Grid.Column="3" Click="newClientAcc_Click"  Margin="5"/>
+        </Grid>
+    </Grid>
+</Window>
