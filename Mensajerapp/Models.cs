@@ -17,8 +17,8 @@ namespace Mensajerapp
         public string Contact { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
-        public int Cuit { get; set; }
-        public int Tel { get; set; }
+        public string Cuit { get; set; }
+        public string   Tel { get; set; }
 
     }
 
@@ -28,8 +28,8 @@ namespace Mensajerapp
         public String Name { get; set; }
         public String Address { get; set; }
         public String Email { get; set; }
-        public int Cuit { get; set; }
-        public int Tel { get; set; }
+        public string Cuit { get; set; }
+        public string   Tel { get; set; }
     }
 
     public class Trips
@@ -38,10 +38,11 @@ namespace Mensajerapp
         public int ClientID { get; set; }
         public String ClientName { get; set; }
         public String ClientContact { get; set; }
-        public int Tel { get; set; }
+        public string Tel { get; set; }
         public int Price { get; set; }
         public String InitAddress { get; set; }
         public String EndAddress { get; set; }
+        public string ContactName { get; set; }
         public int Latening { get; set; }
         public DateTime InitHour { get; set; }
         public String InitHourStr { get; set; }
@@ -51,6 +52,7 @@ namespace Mensajerapp
         public String State { get; set; }
         public int CadetID { get; set; }
         public String CadetName { get; set; }
+        public string HasBox { get; set; }
 
     }
 }

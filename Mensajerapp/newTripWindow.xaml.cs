@@ -79,8 +79,8 @@ namespace Mensajerapp
                     Contact = sqlReader.GetString(2),
                     Address = sqlReader.GetString(3),
                     Email = sqlReader.GetString(4),
-                    Cuit = sqlReader.GetInt16(5),
-                    Tel = sqlReader.GetInt16(6)
+                    Cuit = sqlReader.GetString(5),
+                    Tel = sqlReader.GetString(6)
                 });
                 clientNames.Add(sqlReader.GetString(1));
                 newTripClient.Items.Add(sqlReader.GetString(1));
@@ -102,8 +102,8 @@ namespace Mensajerapp
                     Name = sqlReader.GetString(1),
                     Address = sqlReader.GetString(2),
                     Email = sqlReader.GetString(3),
-                    Cuit = sqlReader.GetInt16(4),
-                    Tel = sqlReader.GetInt16(5)
+                    Cuit = sqlReader.GetString(4),
+                    Tel = sqlReader.GetString(5)
                 });
                 cadetNames.Add(sqlReader.GetString(1));
                 newTripCadet.Items.Add(sqlReader.GetString(1));
@@ -120,13 +120,15 @@ namespace Mensajerapp
 
         private void newTripAcc_Click(object sender, RoutedEventArgs e)
         {
+            int tripHasBox = (newTripBox.IsChecked == true) ? 1 : 0;
+
             dbConnection = new SQLiteConnection("Data Source=" + DATABASE_FILE_NAME + ";Version=3");
 
-            String sqlQ = "INSERT INTO Trips (clientID, price, initAddress, finalAddress, latening, initHour, isArqued, isFinished," +
-                " cadetID) VALUES " +
+            String sqlQ = "INSERT INTO Trips (clientID, price, initAddress, finalAddress, contactName, latening, initHour, isArqued, isFinished," +
+                " cadetID, hasBox) VALUES " +
                 "('" + clientList[newTripClient.SelectedIndex].ID + "', '" + newTripPrice.Text + "', '" + newTripAddress.Text +
-                "', '" + newTripAddressEnd.Text + "', '" + "0" + "', '" + newTripHour.Value + "', '" + "0" + "', '" + "0" + "', '" 
-                + cadetList[newTripCadet.SelectedIndex].ID + "');";
+                "', '" + newTripAddressEnd.Text + "', '" + newTripContact.Text +"', '"+ "0" + "', '" + newTripHour.Value + "', '" + "0" + "', '" + "0" + "', '" 
+                + cadetList[newTripCadet.SelectedIndex].ID + "', '" + tripHasBox + "');";
 
             dbConnection.Open();
             SQLiteCommand scmd = new SQLiteCommand(sqlQ, dbConnection);

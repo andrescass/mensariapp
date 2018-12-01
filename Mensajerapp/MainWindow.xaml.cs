@@ -65,8 +65,8 @@ namespace Mensajerapp
                                     name VARCHAR(1024) NULL,
                                     address VARCHAR(256) NULL,
                                     email VARCHAR(64) NULL,
-                                    cuit INTEGER NULL,
-                                    tel INTEGER NULL)";
+                                    cuit VARCHAR(32) NULL,
+                                    tel VARCHAR(32) NULL)";
 
             string sqlQa = @"CREATE TABLE IF NOT EXISTS Clients (
                                     ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,8 +74,8 @@ namespace Mensajerapp
                                     contact VARCHAR(1024) NULL,
                                     address VARCHAR(256) NULL,
                                     email VARCHAR(64) NULL,
-                                    cuit INTEGER NULL,
-                                    tel INTEGER NULL)";
+                                    cuit VARCHAR(64) NULL,
+                                    tel VARCHAR(32) NULL)";
 
             string sqlQt = @"CREATE TABLE IF NOT EXISTS Trips (
                                     ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -83,11 +83,13 @@ namespace Mensajerapp
                                     price INTEGER NULL,
                                     initAddress VARCHAR(256) NULL,
                                     finalAddress VARCHAR(256) NULL,
+                                    contactName VARCHAR(256) NULL,
                                     latening INTEGER NULL,
                                     initHour INTEGER NULL,
                                     isArqued INTEGER NULL,
                                     isFinished INTEGER NULL,
-                                    cadetID INTEGER NULL)";
+                                    cadetID INTEGER NULL,
+                                    hasBox INTEGER NULL)";
 
             dbConnection = new SQLiteConnection("Data Source=" + DATABASE_FILE_NAME + ";Version=3");
 
@@ -282,8 +284,8 @@ namespace Mensajerapp
                     Contact = sqlReader.GetString(2),
                     Address = sqlReader.GetString(3),
                     Email = sqlReader.GetString(4),
-                    Cuit = sqlReader.GetInt16(5),
-                    Tel = sqlReader.GetInt16(6)
+                    Cuit = sqlReader.GetString(5),
+                    Tel = sqlReader.GetString(6)
                 });
             }
             _conn.Close();
@@ -309,8 +311,8 @@ namespace Mensajerapp
                     Name = sqlReader.GetString(1),
                     Address = sqlReader.GetString(2),
                     Email = sqlReader.GetString(3),
-                    Cuit = sqlReader.GetInt16(4),
-                    Tel = sqlReader.GetInt16(5)
+                    Cuit = sqlReader.GetString(4),
+                    Tel = sqlReader.GetString(5)
                 });
             }
             _conn.Close();
@@ -336,12 +338,12 @@ namespace Mensajerapp
                 SQLiteDataReader sqlReader1 = scmd.ExecuteReader();
                 sqlReader1.Read();
 
-                sqlQ = "SELECT * FROM Cadets WHERE ID = " + sqlReader.GetInt16(9);
+                sqlQ = "SELECT * FROM Cadets WHERE ID = " + sqlReader.GetInt16(10);
                 scmd = new SQLiteCommand(sqlQ, _conn);
                 SQLiteDataReader sqlReader2 = scmd.ExecuteReader();
                 sqlReader2.Read();
 
-                string dateStr = sqlReader.GetString(6);
+                string dateStr = sqlReader.GetString(7);
                 String dateDay = dateStr.Split(' ')[0];
                 String dateHour = dateStr.Split(' ')[1];
 
@@ -358,23 +360,56 @@ namespace Mensajerapp
                     ClientID = sqlReader.GetInt16(1),
                     ClientName = sqlReader1.GetString(1),
                     ClientContact = sqlReader1.GetString(2),
-                    Tel = sqlReader1.GetInt16(5),
+                    Tel = sqlReader1.GetString(6),
                     Price = sqlReader.GetInt16(2),
                     InitAddress = sqlReader.GetString(3),
                     EndAddress = sqlReader.GetString(4),
-                    Latening = sqlReader.GetInt16(5),
+                    ContactName = sqlReader.GetString(5),
+                    Latening = sqlReader.GetInt16(6),
                     InitHour = new DateTime(dateYear, dateMonth, dateDayDay, dateHourHour, dateMin, dateSec),
                     InitHourStr = dateHourHour + ":" + dateMin,
-                    IsArqued = (sqlReader.GetInt16(7) == 1) ? true : false,
-                    IsFinished = (sqlReader.GetInt16(8) == 1) ? true : false,
-                    CadetID = sqlReader.GetInt16(9),
+                    IsArqued = (sqlReader.GetInt16(8) == 1) ? true : false,
+                    IsFinished = (sqlReader.GetInt16(9) == 1) ? true : false,
+                    CadetID = sqlReader.GetInt16(10),
                     CadetName = sqlReader2.GetString(1),
+                    HasBox = (sqlReader.GetInt16(11) == 1) ? "Si" : "No"
                 });
 
             }
             _conn.Close();
 
             return trips;
+        }
+
+        private void RibbonApplicationMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void fileCloseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ribbNewTrip_Click(object sender, RoutedEventArgs e)
+        {
+            addTripWd = new newTripWindow();
+            addTripWd.AcceptEvent += AddTripWd_AcceptEvent;
+            addTripWd.Show();
+        }
+
+        private void ribbNewClient_Click(object sender, RoutedEventArgs e)
+        {
+            addClientWd = new newClientWindow();
+            addClientWd.AcceptEvent += AddClientWd_AcceptEvent;
+            addClientWd.Show();
+        }
+
+        private void ribbNewCaddet_Click(object sender, RoutedEventArgs e)
+        {
+            addCadetWd = new newCadetWindow();
+            addCadetWd.AcceptEvent += AddCadetWd_AcceptEvent;
+            addCadetWd.Show();
         }
     }
 }

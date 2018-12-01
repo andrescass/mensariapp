@@ -29,7 +29,7 @@
         <TextBox x:Name="newCadetName" Grid.Column="1" Grid.Row="0" Margin="5"/>
         <TextBox x:Name="newCadetAddress" Grid.Column="1" Grid.Row="1" Margin="5"/>
         <TextBox x:Name="newCadetMail" Grid.Column="1" Grid.Row="2" Margin="5"/>
-        <TextBox x:Name="newCadetCuit" Grid.Column="1" Grid.Row="3" Margin="5" PreviewTextInput="NumberValidationTextBox"/>
+        <TextBox x:Name="newCadetCuit" Grid.Column="1" Grid.Row="3" Margin="5"/>
         <TextBox x:Name="newCadetTel" Grid.Column="1" Grid.Row="4" Margin="5" PreviewTextInput="NumberValidationTextBox"/>
 
         <Grid Grid.Column="1" Grid.Row="5">
