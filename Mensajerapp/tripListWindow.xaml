@@ -1,0 +1,43 @@
+﻿<Window x:Class="Mensajerapp.tripListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mensajerapp"
+        mc:Ignorable="d"
+        Title="Historial de viajes" Height="600" Width="1320">
+    <Grid>
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0, 10">
+                <Label Content="Desde" Margin="10, 0"/>
+                <DatePicker x:Name="tripFiltFrom" SelectedDateChanged="tripFiltFrom_SelectedDateChanged"/>
+                <Label Content="Desde" Margin="30, 0, 10, 0"/>
+                <DatePicker x:Name="tripFiltTo" SelectedDateChanged="tripFiltTo_SelectedDateChanged"/>
+                <CheckBox x:Name="tripFiltFinish" VerticalAlignment="Center" Content="Finalizado" Margin="30, 0, 5, 0" Click="tripFiltFinish_Click"/>
+                <CheckBox x:Name="tripFiltBilled" VerticalAlignment="Center" Content="Facturado" Margin="30, 0, 5, 0" Click="tripFiltBilled_Click"/>
+                <Label Content="Cliente" Margin="30, 0, 10, 0"/>
+                <ComboBox x:Name="tripFiltClient" MinWidth="120" SelectionChanged="tripFiltClient_SelectionChanged"/>
+                <Label Content="Cadete" Margin="30, 0, 10, 0"/>
+                <ComboBox x:Name="tripFiltCadet" MinWidth="120" SelectionChanged="tripFiltCadet_SelectionChanged"/>
+                <Button x:Name="tripFiltBut" Content="Filtrar" Margin="60, 0, 0, 0" Padding="10, 1, 10, 1" Click="tripFiltBut_Click"/>
+                <Button x:Name="tripFiltClearBut" Content="Reset" Margin="10, 0, 0, 0" Padding="10, 1, 10, 1" Click="tripFiltClearBut_Click"/>
+            </StackPanel>
+            <ListView Name="tripGrid">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Empresa" Width="200" DisplayMemberBinding="{Binding ClientName}"/>
+                        <GridViewColumn Header="Contacto" Width="200" DisplayMemberBinding="{Binding ClientContact}"/>
+                        <GridViewColumn Header="Dirección retiro" Width="250" DisplayMemberBinding="{Binding InitAddress}"/>
+                        <GridViewColumn Header="Dirección entrega" Width="250" DisplayMemberBinding="{Binding EndAddress}"/>
+                        <GridViewColumn Header="Telefono" Width="100" DisplayMemberBinding="{Binding Tel}"/>
+                        <GridViewColumn Header="Cadete" Width="100" DisplayMemberBinding="{Binding CadetName}"/>
+                        <GridViewColumn Header="Día" Width="80" DisplayMemberBinding="{Binding StringDate}"/>
+                        <GridViewColumn Header="Hora" Width="80" DisplayMemberBinding="{Binding InitHourStr}"/>
+                        <!--GridViewColumn Header="Estado" Width="60" DisplayMemberBinding="{Binding State}"/-->
+                        <GridViewColumn Header="Bulto" Width="40" DisplayMemberBinding="{Binding HasBox}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+    </Grid>
+</Window>

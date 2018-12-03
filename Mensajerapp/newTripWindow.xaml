@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:Mensajerapp"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:loc="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Nuevo Viaje" Height="300" Width="800">
     <Grid>
@@ -33,13 +35,13 @@
         <Label Grid.Column="0" Grid.Row="6" Content="Precio $" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Label Grid.Column="0" Grid.Row="7" Content="Bulto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-        <ComboBox x:Name="newTripClient" Grid.Column="1" Grid.Row="0" Margin="5"/>
+        <ComboBox x:Name="newTripClient" Grid.Column="1" Grid.Row="0" Margin="5" SelectionChanged="newTripClient_SelectionChanged"/>
         <ComboBox x:Name="newTripCadet" Grid.Column="1" Grid.Row="1" Margin="5"/>
         <TextBox x:Name="newTripAddress" Grid.Column="1" Grid.Row="2" Margin="5"/>
         <TextBox x:Name="newTripAddressEnd" Grid.Column="1" Grid.Row="3" Margin="5"/>
         <TextBox x:Name="newTripContact" Grid.Column="1" Grid.Row="4" Margin="5"/>
-        <xctk:DateTimeUpDown x:Name="newTripHour" Grid.Column="1" Grid.Row="5" Format="LongTime" Value="{Binding CurrentDateTime}" />
-        <TextBox x:Name="newTripPrice" Grid.Column="1" Grid.Row="6" Margin="5"/>
+        <xctk:DateTimeUpDown x:Name="newTripHour" Value="{x:Static sys:DateTime.Now}" Grid.Column="1" Grid.Row="5" Format="Custom" FormatString="dd-MM-yy hh:mm tt" CultureInfo="{x:Static loc:CultureInfo.InvariantCulture}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <TextBox x:Name="newTripPrice" Grid.Column="1" Grid.Row="6" Margin="5" PreviewTextInput="NumberValidationTextBox"/>
         <CheckBox x:Name="newTripBox"  Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Margin="5,0,0,0"/>
         <Grid Grid.Column="1" Grid.Row="8">
             <Grid.ColumnDefinitions>

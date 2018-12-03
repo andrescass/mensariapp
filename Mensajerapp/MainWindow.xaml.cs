@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Data.SQLite;
 using Path = System.IO.Path;
 using System.Windows.Controls.Ribbon;
+using System.Globalization;
 
 namespace Mensajerapp
 {
@@ -48,6 +49,10 @@ namespace Mensajerapp
         newClientWindow addClientWd;
         newCadetWindow addCadetWd;
         newTripWindow addTripWd;
+        clientListWindow clientListWindow;
+        cadetListWindow cadetListWindow;
+        tripListWindow tripListWindow;
+        cadetPay cadetPayWindow;
 
         public MainWindow()
         {
@@ -89,7 +94,9 @@ namespace Mensajerapp
                                     isArqued INTEGER NULL,
                                     isFinished INTEGER NULL,
                                     cadetID INTEGER NULL,
-                                    hasBox INTEGER NULL)";
+                                    hasBox INTEGER NULL,
+                                    initHourInt INTEGER NULL,
+                                    isBilled INTEGER NULL)";
 
             dbConnection = new SQLiteConnection("Data Source=" + DATABASE_FILE_NAME + ";Version=3");
 
@@ -101,8 +108,8 @@ namespace Mensajerapp
             cadetList = new List<Cadets>();
             tripList = new List<Trips>();
 
-            clientGrid.ItemsSource = LoadClients(dbConnection);
-            cadetGrid.ItemsSource = LoadCadets(dbConnection);
+            //clientGrid.ItemsSource = LoadClients(dbConnection);
+            //cadetGrid.ItemsSource = LoadCadets(dbConnection);
             tripGrid.ItemsSource = LoadTrips(dbConnection);
 
         }
@@ -113,6 +120,30 @@ namespace Mensajerapp
             if(addClientWd != null)
             {
                 addClientWd.Close();
+            }
+            if (addCadetWd != null)
+            {
+                addCadetWd.Close();
+            }
+            if (addTripWd != null)
+            {
+                addTripWd.Close();
+            }
+            if (clientListWindow != null)
+            {
+                clientListWindow.Close();
+            }
+            if (cadetListWindow != null)
+            {
+                cadetListWindow.Close();
+            }
+            if (tripListWindow != null)
+            {
+                tripListWindow.Close();
+            }
+            if (cadetPayWindow != null)
+            {
+                cadetPayWindow.Close();
             }
         }
 
@@ -188,14 +219,14 @@ namespace Mensajerapp
 
         private void AddCadetWd_AcceptEvent(object sender, EventArgs e)
         {
-            cadetGrid.ItemsSource = null;
-            cadetGrid.ItemsSource = LoadCadets(dbConnection);
+            //cadetGrid.ItemsSource = null;
+            //cadetGrid.ItemsSource = LoadCadets(dbConnection);
         }
 
         private void AddClientWd_AcceptEvent(object sender, EventArgs e)
         {
-            clientGrid.ItemsSource = null;
-            clientGrid.ItemsSource = LoadClients(dbConnection);
+            //clientGrid.ItemsSource = null;
+            //clientGrid.ItemsSource = LoadClients(dbConnection);
         }
 
         private void clientDel_Click(object sender, RoutedEventArgs e)
@@ -214,7 +245,7 @@ namespace Mensajerapp
                     tripGrid.ItemsSource = LoadTrips(dbConnection);
                     break;
                 case 1:
-                    Clients selClient = (Clients)clientGrid.SelectedItem;
+                    /*Clients selClient = (Clients)clientGrid.SelectedItem;
                     //String sqlQ = "DELETE FROM Clients WHERE ID = " + clientList[clientGrid.SelectedIndex].ID + ";";
                     String sqlQ = "DELETE FROM Clients WHERE ID = " + selClient.ID + ";";
                     dbConnection.Open();
@@ -228,10 +259,10 @@ namespace Mensajerapp
                     if (clientGrid.Items.Count == 0)
                     {
                         clientDel.IsEnabled = false;
-                    }
+                    }*/
                     break;
                 case 2:
-                    Cadets selCadet = (Cadets)cadetGrid.SelectedItem;
+                   /* Cadets selCadet = (Cadets)cadetGrid.SelectedItem;
                     String sqlQc = "DELETE FROM Cadets WHERE ID = " + selCadet.ID + ";";
                     dbConnection.Open();
                     SQLiteCommand scmdc = new SQLiteCommand(sqlQc, dbConnection);
@@ -244,7 +275,7 @@ namespace Mensajerapp
                     if (cadetGrid.Items.Count == 0)
                     {
                         clientDel.IsEnabled = false;
-                    }
+                    }*/
                     break;
             }
         }
@@ -262,6 +293,7 @@ namespace Mensajerapp
         private void tripGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             clientDel.IsEnabled = true;
+            tripFinish.IsEnabled = true;
         }
 
         public List<Clients> LoadClients(SQLiteConnection _conn)
@@ -353,6 +385,15 @@ namespace Mensajerapp
                 int dateHourHour = int.Parse(dateHour.Split(':')[0]);
                 int dateMin = int.Parse(dateHour.Split(':')[1]);
                 int dateSec = int.Parse(dateHour.Split(':')[2]);
+                string dateHourAux = dateHourHour + ":";
+                if (dateMin > 0)
+                {
+                    dateHourAux += dateMin;
+                }
+                else
+                {
+                    dateHourAux += "00";
+                }
 
                 trips.Add(new Trips()
                 {
@@ -367,18 +408,46 @@ namespace Mensajerapp
                     ContactName = sqlReader.GetString(5),
                     Latening = sqlReader.GetInt16(6),
                     InitHour = new DateTime(dateYear, dateMonth, dateDayDay, dateHourHour, dateMin, dateSec),
-                    InitHourStr = dateHourHour + ":" + dateMin,
+                    InitHourStr = dateHourAux, // dateHourHour + ":" + dateMin,
+                    StringDate = dateDayDay + "/" + dateMonth + "/" + dateYear,
                     IsArqued = (sqlReader.GetInt16(8) == 1) ? true : false,
                     IsFinished = (sqlReader.GetInt16(9) == 1) ? true : false,
                     CadetID = sqlReader.GetInt16(10),
                     CadetName = sqlReader2.GetString(1),
-                    HasBox = (sqlReader.GetInt16(11) == 1) ? "Si" : "No"
+                    HasBox = (sqlReader.GetInt16(11) == 1) ? "Si" : "No",
+                    IsBilled = (sqlReader.GetInt16(13) == 1) ? true : false
                 });
 
             }
             _conn.Close();
 
             return trips;
+        }
+
+        [ValueConversion(typeof(bool), typeof(String))]
+        public class finishedToStateConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if(value == null)
+                {
+                    return "";
+                }
+                bool isFinished = (bool)value;
+                if(isFinished)
+                {
+                    return "Finalizado";
+                }
+                else
+                {
+                    return "En curso";
+                }
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private void RibbonApplicationMenuItem_Click(object sender, RoutedEventArgs e)
@@ -410,6 +479,58 @@ namespace Mensajerapp
             addCadetWd = new newCadetWindow();
             addCadetWd.AcceptEvent += AddCadetWd_AcceptEvent;
             addCadetWd.Show();
+        }
+
+        private void ribbHistClients_Click(object sender, RoutedEventArgs e)
+        {
+            if(!Application.Current.Windows.OfType<clientListWindow>().Any())
+            {
+                clientListWindow = new clientListWindow();
+
+                clientListWindow.Show();
+            }
+        }
+
+        private void ribbHistCadets_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Application.Current.Windows.OfType<cadetListWindow>().Any())
+            {
+                cadetListWindow = new cadetListWindow();
+
+                cadetListWindow.Show();
+            }
+        }
+
+        private void ribbHistTrips_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Application.Current.Windows.OfType<tripListWindow>().Any())
+            {
+                tripListWindow = new tripListWindow();
+
+                tripListWindow.Show();
+            }
+        }
+
+        private void ribbArqCadet_Click(object sender, RoutedEventArgs e)
+        {
+            cadetPayWindow = new cadetPay(-1);
+            cadetPayWindow.Show();
+        }
+
+        private void tripFinish_Click(object sender, RoutedEventArgs e)
+        {
+            Trips selTrip = (Trips)tripGrid.SelectedItem;
+
+            dbConnection = new SQLiteConnection("Data Source=" + DATABASE_FILE_NAME + ";Version=3");
+            dbConnection.Open();
+
+            string sqlQ = "UPDATE trips SET isFinished = 1 WHERE ID = " + selTrip.ID;
+            SQLiteCommand scmd = new SQLiteCommand(sqlQ, dbConnection);
+            scmd.ExecuteNonQuery();
+
+            dbConnection.Close();
+            tripGrid.ItemsSource = null;
+            tripGrid.ItemsSource = LoadTrips(dbConnection);
         }
     }
 }

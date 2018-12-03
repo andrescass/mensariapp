@@ -47,12 +47,14 @@ namespace Mensajerapp
         public DateTime InitHour { get; set; }
         public String InitHourStr { get; set; }
         public String StringHour { get; set; }
-        public Boolean IsArqued { get; set; }
-        public Boolean IsFinished { get; set; }
+        public string StringDate { get; set; }
+        public bool IsArqued { get; set; }
+        public bool IsFinished { get; set; }
         public String State { get; set; }
         public int CadetID { get; set; }
         public String CadetName { get; set; }
         public string HasBox { get; set; }
+        public bool IsBilled { get; set; }
 
     }
 }

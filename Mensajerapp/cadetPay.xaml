@@ -1,0 +1,42 @@
+﻿<Window x:Class="Mensajerapp.cadetPay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mensajerapp"
+        mc:Ignorable="d"
+        Title="cadetPay" Height="300" Width="300"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Content="Cadete" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 0, 0, 0" />
+        <Label Grid.Column="0" Grid.Row="1" Content="Desde" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 0, 0, 0" />
+        <Label Grid.Column="0" Grid.Row="2" Content="Hasta" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 0, 0, 0" />
+        <Label Grid.Column="0" Grid.Row="3" Content="% Cadete" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 0, 0, 0" />
+        <Label x:Name="cadetPayTotal" Grid.Column="1" Grid.Row="4" Content="Total" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 0, 0, 0" FontWeight="Bold" />
+        <Label Grid.Column="0" Grid.Row="5" Content="Total Cadete" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 0, 0, 0" FontWeight="Bold" />
+
+        <Button x:Name="cadetPayCalBut" Content="Calcular" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Click="cadetPayCalBut_Click"/>
+
+        <ComboBox x:Name="cadetPayList" Grid.Column="1" Grid.Row="0" Margin="5" VerticalAlignment="Center"/>
+        <DatePicker x:Name="cadetPayFrom" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <DatePicker x:Name="cadetPayTo" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="cadetPayPerc" Text="10" Grid.Column="1" Grid.Row="3" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" PreviewTextInput="NumberValidationTextBox"/>
+        <Label x:Name="cadetPayCadetTotal" Content="0"  Grid.Column="1" Grid.Row="5" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10, 5" FontWeight="Bold" />
+
+        <Button x:Name="cadetPayConfirm" Content="Confirmar" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Click="cadetPayConfirm_Click" />
+    </Grid>
+</Window>

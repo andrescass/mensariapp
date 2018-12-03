@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mensajerapp"
         mc:Ignorable="d"
-        Title="Mensajerapp"  WindowState="Maximized"
+        Title="Mensajeria"  WindowState="Maximized"
         Closed="Window_Closed" d:DesignWidth="1352.7">
+    <Window.Resources>
+        <local:stateConverter x:Key="stateConverter"/>
+    </Window.Resources>
     <DockPanel>
         <Ribbon DockPanel.Dock="Top">
             <Ribbon.ApplicationMenu>
@@ -22,13 +25,18 @@
                     <RibbonButton x:Name="ribbNewClient" Label="Nuevo Cliente" Margin="0,10,0,0" Click="ribbNewClient_Click"/>
                     <RibbonButton x:Name="ribbNewCaddet" Label="Nuevo Cadete" Margin="0,10,0,0" Click="ribbNewCaddet_Click"/>
                 </RibbonGroup>
-                <RibbonGroup Header="Historial">
-                    <RibbonButton x:Name="ribbHistTrips" Label="Viajes" Margin="0,5,0,0"/>
-                    <RibbonButton x:Name="ribbHistClients" Label="Clientes" Margin="0,2,0,0"/>
-                    <RibbonButton x:Name="ribbHistCadets" Label="Cadetes" Margin="0,2,0,0"/>
-                </RibbonGroup>
                 <RibbonGroup Header="Arqueo">
-                    <RibbonButton x:Name="ribbArqCadet" Label="Arqueo Cadete" LargeImageSource="Img/ticket_icon.png" HorizontalAlignment="Center"/>
+                    <RibbonButton x:Name="ribbArqCadet" Label="Arqueo Cadete" LargeImageSource="Img/ticket_icon.png" HorizontalAlignment="Center" Click="ribbArqCadet_Click"/>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Ver">
+                <RibbonGroup Header="Listado">
+                    <RibbonButton x:Name="ribbHistClients" Label="Clientes" Margin="0,10,0,0" Click="ribbHistClients_Click"/>
+                    <RibbonButton x:Name="ribbHistCadets" Label="Cadetes" Margin="0,10,0,0" Click="ribbHistCadets_Click"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Historial">
+                    <RibbonButton x:Name="ribbHistTrips" Label="Viajes" Margin="0,10,0,0" Click="ribbHistTrips_Click"/>
+                    <RibbonButton x:Name="ribbHistBills" Label="Facturas" Margin="0,10,0,0"/>
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Facturación">
@@ -45,6 +53,7 @@
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5" HorizontalAlignment="Right">
                 <Button Name="clientNew" Content="Nuevo" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="2" Margin="0,0,10,0" Click="clientNew_Click" Visibility="Collapsed"/>
                 <Button Name="clientDel" Content="Borrar" IsEnabled="False" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="2" Margin="0,0,10,0" Click="clientDel_Click" Visibility="Collapsed"/>
+                <Button Name="tripFinish" Content="Finalizar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="2" Margin="0,0,10,0" Click="tripFinish_Click"/>
             </StackPanel>
             <TabControl Name="mainTab">
             <TabItem Header="Viajes">
@@ -53,18 +62,20 @@
                             <GridView>
                                 <GridViewColumn Header="Empresa" Width="200" DisplayMemberBinding="{Binding ClientName}"/>
                                 <GridViewColumn Header="Contacto" Width="200" DisplayMemberBinding="{Binding ClientContact}"/>
-                                <GridViewColumn Header="Dirección retiro" Width="300" DisplayMemberBinding="{Binding InitAddress}"/>
-                                <GridViewColumn Header="Dirección entrega" Width="300" DisplayMemberBinding="{Binding EndAddress}"/>
-                                <GridViewColumn Header="Telefono" Width="100" DisplayMemberBinding="{Binding Tel}"/>
+                                <GridViewColumn Header="Dirección retiro" Width="250" DisplayMemberBinding="{Binding InitAddress}"/>
+                                <GridViewColumn Header="Dirección entrega" Width="250" DisplayMemberBinding="{Binding EndAddress}"/>
+                                <GridViewColumn Header="Precio" Width="100" DisplayMemberBinding="{Binding Price}"/>
                                 <GridViewColumn Header="Cadete" Width="100" DisplayMemberBinding="{Binding CadetName}"/>
-                                <GridViewColumn Header="Hora" Width="60" DisplayMemberBinding="{Binding InitHourStr}"/>
-                                <GridViewColumn Header="Estado" Width="60" DisplayMemberBinding="{Binding State}"/>
-                                <GridViewColumn Header="Bulto" Width="60" DisplayMemberBinding="{Binding HasBox}"/>
+                                <GridViewColumn Header="Telefono" Width="100" DisplayMemberBinding="{Binding Tel}"/>
+                                <GridViewColumn Header="Día" Width="80" DisplayMemberBinding="{Binding StringDate}"/>
+                                <GridViewColumn Header="Hora" Width="80" DisplayMemberBinding="{Binding InitHourStr}"/>
+                                <GridViewColumn Header="Bulto" Width="40" DisplayMemberBinding="{Binding HasBox}"/>
+                                <GridViewColumn Header="Estado" Width="70" DisplayMemberBinding="{Binding IsFinished, Converter={StaticResource stateConverter}}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
                 </TabItem>
-            <TabItem Header="Clientes" Name="clientTab">
+            <!--TabItem Header="Clientes" Name="clientTab">
                 <ListView Name="clientGrid" SelectionChanged="clientGrid_SelectionChanged">
                     <ListView.View>
                         <GridView>
@@ -83,7 +94,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-            </TabItem>
+            </>
             <TabItem Header="Cadetes" Name="CadetTab">
                     <ListView Name="cadetGrid" SelectionChanged="cadetGrid_SelectionChanged">
                         <ListView.View>
@@ -102,7 +113,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </TabItem>
+                </TabItem-->
         </TabControl>
         </DockPanel>
     </DockPanel>

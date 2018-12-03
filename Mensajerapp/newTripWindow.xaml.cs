@@ -120,22 +120,27 @@ namespace Mensajerapp
 
         private void newTripAcc_Click(object sender, RoutedEventArgs e)
         {
-            int tripHasBox = (newTripBox.IsChecked == true) ? 1 : 0;
+            if ((newTripClient.SelectedIndex > -1) && (newTripCadet.SelectedIndex > 0) && !String.IsNullOrEmpty(newTripAddress.Text) && 
+                !String.IsNullOrEmpty(newTripAddressEnd.Text) && !String.IsNullOrEmpty(newTripContact.Text) && !String.IsNullOrEmpty(newTripPrice.Text))
+            {
+                int tripHasBox = (newTripBox.IsChecked == true) ? 1 : 0;
+                DateTime? tripHour = newTripHour.Value;
 
-            dbConnection = new SQLiteConnection("Data Source=" + DATABASE_FILE_NAME + ";Version=3");
+                dbConnection = new SQLiteConnection("Data Source=" + DATABASE_FILE_NAME + ";Version=3");
 
-            String sqlQ = "INSERT INTO Trips (clientID, price, initAddress, finalAddress, contactName, latening, initHour, isArqued, isFinished," +
-                " cadetID, hasBox) VALUES " +
-                "('" + clientList[newTripClient.SelectedIndex].ID + "', '" + newTripPrice.Text + "', '" + newTripAddress.Text +
-                "', '" + newTripAddressEnd.Text + "', '" + newTripContact.Text +"', '"+ "0" + "', '" + newTripHour.Value + "', '" + "0" + "', '" + "0" + "', '" 
-                + cadetList[newTripCadet.SelectedIndex].ID + "', '" + tripHasBox + "');";
+                String sqlQ = "INSERT INTO Trips (clientID, price, initAddress, finalAddress, contactName, latening, initHour, isArqued, isFinished," +
+                    " cadetID, hasBox, initHourInt, isBilled) VALUES " +
+                    "('" + clientList[newTripClient.SelectedIndex].ID + "', '" + newTripPrice.Text + "', '" + newTripAddress.Text +
+                    "', '" + newTripAddressEnd.Text + "', '" + newTripContact.Text + "', '" + "0" + "', '" + newTripHour.Value + "', '" + "0" + "', '" + "0" + "', '"
+                    + cadetList[newTripCadet.SelectedIndex].ID + "', '" + tripHasBox + "', '" + tripHour.Value.Ticks + "', '" + 0 + "');";
 
-            dbConnection.Open();
-            SQLiteCommand scmd = new SQLiteCommand(sqlQ, dbConnection);
-            scmd.ExecuteNonQuery();
-            dbConnection.Close();
+                dbConnection.Open();
+                SQLiteCommand scmd = new SQLiteCommand(sqlQ, dbConnection);
+                scmd.ExecuteNonQuery();
+                dbConnection.Close();
 
-            this.AcceptEvent(newTripAcc, new EventArgs());
+                this.AcceptEvent(newTripAcc, new EventArgs());
+            }
 
             this.Close();
         }
@@ -157,6 +162,18 @@ namespace Mensajerapp
             dbConnection.Close();
 
             return sqlReader;
+        }
+
+        private void newTripClient_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            newTripAddress.Text = clientList[newTripClient.SelectedIndex].Address;
+            newTripContact.Text = clientList[newTripClient.SelectedIndex].Contact;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
